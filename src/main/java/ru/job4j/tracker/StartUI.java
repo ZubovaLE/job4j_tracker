@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class StartUI {
@@ -16,16 +17,39 @@ public class StartUI {
                 String name = scanner.nextLine();
                 Item item = new Item(name);
                 tracker.add(item);
-                System.out.println("Добавленная заявка: " + item);
+                System.out.println("Добавленная заявка:\n" + "name: " + item.getName() + ",\nid: " + item.getId() +
+                        ",\ncreated: " + item.getCreated().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
             } else if (select == 1) {
                 System.out.println("=== Show all items ===");
                 Item[] items = tracker.findAll();
                 if (items.length > 0) {
                     for (Item item : items) {
-                        System.out.println(item);
+                        System.out.println("name: " + item.getName() + ", id: " + item.getId() +
+                                ", created: " + item.getCreated().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
                     }
                 } else {
                     System.out.println("Хранилище еще не содержит заявок");
+                }
+            } else if (select == 2) {
+                System.out.println("=== Edit item ===");
+                System.out.print("Enter id: ");
+                int id = Integer.parseInt(scanner.nextLine());
+                System.out.print("Enter name: ");
+                String name = scanner.nextLine();
+                Item item = new Item(name);
+                if (tracker.replace(id, item)) {
+                    System.out.println("Заявка изменена успешно.");
+                } else {
+                    System.out.println("Ошибка замены заявки.");
+                }
+            } else if (select == 3) {
+                System.out.println("=== Delete item ===");
+                System.out.print("Enter id: ");
+                int id = Integer.parseInt(scanner.nextLine());
+                if (tracker.delete(id)) {
+                    System.out.println("Заявка удалена успешно.");
+                } else {
+                    System.out.println("Ошибка удаления заявки.");
                 }
             } else if (select == 6) {
                 run = false;
