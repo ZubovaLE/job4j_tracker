@@ -24,8 +24,7 @@ public class StartUI {
                 Item[] items = tracker.findAll();
                 if (items.length > 0) {
                     for (Item item : items) {
-                        System.out.println("name: " + item.getName() + ", id: " + item.getId() +
-                                ", created: " + item.getCreated().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+                        System.out.println(item);
                     }
                 } else {
                     System.out.println("Хранилище еще не содержит заявок");
@@ -57,8 +56,7 @@ public class StartUI {
                 int id = Integer.parseInt(scanner.nextLine());
                 Item item = tracker.findById(id);
                 if (item != null) {
-                    System.out.println("name: " + item.getName() + ", id: " + item.getId() +
-                            ", created: " + item.getCreated().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+                    System.out.println(item);
                 } else {
                     System.out.println("Заявка с введённым id не найдена");
                 }
@@ -69,8 +67,7 @@ public class StartUI {
                 Item[] items = tracker.findByName(name);
                 if (items.length > 0) {
                     for (Item item : items) {
-                        System.out.println("name: " + item.getName() + ", id: " + item.getId() +
-                                ", created: " + item.getCreated().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+                        System.out.println(item);
                     }
                 } else {
                     System.out.println("Заявки с именем: " + name + " не найдены.");
