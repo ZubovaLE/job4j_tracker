@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StartUITest {
+    private final String ln = System.lineSeparator();
 
     @Test
     @DisplayName("Test init method when add new item")
@@ -59,8 +60,9 @@ class StartUITest {
     }
 
     @Test
-    @DisplayName("Test init method when delete an item")
+    @DisplayName("Test init method when exit program")
     void whenExit() {
+        StringBuilder expected = new StringBuilder();
         Output out = new StubOutput();
         Input in = new StubInput(new String[]{"0"});
         Tracker tracker = new Tracker();
@@ -68,9 +70,167 @@ class StartUITest {
                 new ExitAction(out)
         };
         new StartUI(out).init(in, tracker, actions);
-        assertEquals(out.toString(),
-                "Menu:" + System.lineSeparator() +
-                        "0. Exit Program" + System.lineSeparator() + "The program is finished. Thank you!" + System.lineSeparator()
+        expected.append("Menu:").append(ln).append("0. Exit Program")
+                .append(ln).append("The program is finished. Thank you!").append(ln);
+        assertEquals(expected.toString(), out.toString());
+    }
+
+    @Test
+    @DisplayName("Test when EditAction then output is successful")
+    void whenEditActionTestOutputIsSuccessful() {
+        StringBuilder expected = new StringBuilder();
+        Output out = new StubOutput();
+        Tracker tracker = new Tracker();
+        Item one = tracker.add(new Item("test1"));
+        String replaceName = "New test name";
+        Input in = new StubInput(
+                new String[]{"0", String.valueOf(one.getId()), replaceName, "1"}
         );
+        UserAction[] actions = {
+                new EditAction(out),
+                new ExitAction(out)
+        };
+        new StartUI(out).init(in, tracker, actions);
+        expected.append("Menu:").append(ln).append("0. Edit Item").append(ln).append("1. Exit Program").append(ln)
+                .append("=== Edit item ===").append(ln).append("Заявка изменена успешно.").append(ln)
+                .append("Menu:").append(ln).append("0. Edit Item").append(ln).append("1. Exit Program")
+                .append(ln).append("The program is finished. Thank you!").append(ln);
+        assertEquals(expected.toString(), out.toString());
+    }
+
+    @Test
+    @DisplayName("Test when ShowAction then output is successful")
+    void whenShowActionTestOutputIsSuccessful() {
+        StringBuilder expected = new StringBuilder();
+        Output out = new StubOutput();
+        Tracker tracker = new Tracker();
+        Item one = tracker.add(new Item("first"));
+        Item two = tracker.add(new Item("second"));
+        Input in = new StubInput(
+                new String[]{"0", "1"}
+        );
+        UserAction[] actions = {
+                new ShowAction(out),
+                new ExitAction(out)
+        };
+        new StartUI(out).init(in, tracker, actions);
+        expected.append("Menu:").append(ln).append("0. Show all Items").append(ln)
+                .append("1. Exit Program").append(ln).append("=== Show all items ===")
+                .append(ln).append(one.toString()).append(ln).append(two.toString())
+                .append(ln).append("Menu:").append(ln).append("0. Show all Items").append(ln)
+                .append("1. Exit Program").append(ln).append("The program is finished. Thank you!").append(ln);
+        assertEquals(expected.toString(), out.toString());
+    }
+
+    @Test
+    @DisplayName("Test ShowAction when the tracker is empty yet")
+    void testShowActionWhenTrackerIsEmpty() {
+        StringBuilder expected = new StringBuilder();
+        Output out = new StubOutput();
+        Tracker tracker = new Tracker();
+        Input in = new StubInput(
+                new String[]{"0", "1"}
+        );
+        UserAction[] actions = {
+                new ShowAction(out),
+                new ExitAction(out)
+        };
+        new StartUI(out).init(in, tracker, actions);
+        expected.append("Menu:").append(ln).append("0. Show all Items").append(ln)
+                .append("1. Exit Program").append(ln).append("=== Show all items ===")
+                .append(ln).append("Хранилище еще не содержит заявок")
+                .append(ln).append("Menu:").append(ln).append("0. Show all Items").append(ln)
+                .append("1. Exit Program").append(ln).append("The program is finished. Thank you!").append(ln);
+        assertEquals(expected.toString(), out.toString());
+    }
+
+    @Test
+    @DisplayName("Test when FindById then output is successful")
+    void whenFindByIdActionTestOutputIsSuccessful() {
+        StringBuilder expected = new StringBuilder();
+        Output out = new StubOutput();
+        Tracker tracker = new Tracker();
+        Item one = tracker.add(new Item("first"));
+        Input in = new StubInput(
+                new String[]{"0", String.valueOf(one.getId()), "1"}
+        );
+        UserAction[] actions = {
+                new FindByIdAction(out),
+                new ExitAction(out)
+        };
+        new StartUI(out).init(in, tracker, actions);
+        expected.append("Menu:").append(ln).append("0. Find Item by id").append(ln)
+                .append("1. Exit Program").append(ln).append("=== Find item by id ===")
+                .append(ln).append(one).append(ln).append("Menu:")
+                .append(ln).append("0. Find Item by id").append(ln)
+                .append("1. Exit Program").append(ln).append("The program is finished. Thank you!").append(ln);
+        assertEquals(expected.toString(), out.toString());
+    }
+
+    @Test
+    @DisplayName("Test FindById when the item is not found")
+    void testFindByIdActionWhenItemIsNotFound() {
+        StringBuilder expected = new StringBuilder();
+        Output out = new StubOutput();
+        Tracker tracker = new Tracker();
+        Input in = new StubInput(
+                new String[]{"0", "5", "1"}
+        );
+        UserAction[] actions = {
+                new FindByIdAction(out),
+                new ExitAction(out)
+        };
+        new StartUI(out).init(in, tracker, actions);
+        expected.append("Menu:").append(ln).append("0. Find Item by id").append(ln)
+                .append("1. Exit Program").append(ln).append("=== Find item by id ===")
+                .append(ln).append("Заявка с введённым id не найдена").append(ln).append("Menu:")
+                .append(ln).append("0. Find Item by id").append(ln)
+                .append("1. Exit Program").append(ln).append("The program is finished. Thank you!").append(ln);
+        assertEquals(expected.toString(), out.toString());
+    }
+
+    @Test
+    @DisplayName("Test when FindByName then output is successful")
+    void whenFindByNameActionTestOutputIsSuccessful() {
+        StringBuilder expected = new StringBuilder();
+        Output out = new StubOutput();
+        Tracker tracker = new Tracker();
+        Item one = tracker.add(new Item("first"));
+        Input in = new StubInput(
+                new String[]{"0", String.valueOf(one.getName()), "1"}
+        );
+        UserAction[] actions = {
+                new FindByNameAction(out),
+                new ExitAction(out)
+        };
+        new StartUI(out).init(in, tracker, actions);
+        expected.append("Menu:").append(ln).append("0. Find Item by name").append(ln)
+                .append("1. Exit Program").append(ln).append("=== Find item by name ===")
+                .append(ln).append(one).append(ln).append("Menu:")
+                .append(ln).append("0. Find Item by name").append(ln)
+                .append("1. Exit Program").append(ln).append("The program is finished. Thank you!").append(ln);
+        assertEquals(expected.toString(), out.toString());
+    }
+
+    @Test
+    @DisplayName("Test FindByName when an item is not found")
+    void testFindByNameActionWhenItemIsNotFound() {
+        StringBuilder expected = new StringBuilder();
+        Output out = new StubOutput();
+        Tracker tracker = new Tracker();
+        Input in = new StubInput(
+                new String[]{"0", "any", "1"}
+        );
+        UserAction[] actions = {
+                new FindByNameAction(out),
+                new ExitAction(out)
+        };
+        new StartUI(out).init(in, tracker, actions);
+        expected.append("Menu:").append(ln).append("0. Find Item by name").append(ln)
+                .append("1. Exit Program").append(ln).append("=== Find item by name ===")
+                .append(ln).append("Заявки с именем: any не найдены.").append(ln).append("Menu:")
+                .append(ln).append("0. Find Item by name").append(ln)
+                .append("1. Exit Program").append(ln).append("The program is finished. Thank you!").append(ln);
+        assertEquals(expected.toString(), out.toString());
     }
 }
