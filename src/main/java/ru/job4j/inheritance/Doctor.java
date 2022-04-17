@@ -1,6 +1,6 @@
 package ru.job4j.inheritance;
 
-public class Doctor extends Profession{
+public class Doctor extends Profession {
 
     private final String degree;
 
