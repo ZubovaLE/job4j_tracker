@@ -12,7 +12,7 @@ public class FindEl {
             }
         }
         if (flag) {
-            throw new ElementNotFoundException("Element is not Found");
+            throw new ElementNotFoundException("Element is not found");
         }
         return rsl;
     }
