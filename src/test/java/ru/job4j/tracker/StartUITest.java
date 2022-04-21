@@ -233,4 +233,23 @@ class StartUITest {
                 .append("1. Exit Program").append(ln).append("The program is finished. Thank you!").append(ln);
         assertEquals(expected.toString(), out.toString());
     }
+
+    @Test
+    @DisplayName("Test when enter non-existence menu option and then enter correct option")
+    void whenInvalidExit() {
+        StringBuilder expected = new StringBuilder();
+        Output out = new StubOutput();
+        Input in = new StubInput(
+                new String[]{"7", "0"}
+        );
+        Tracker tracker = new Tracker();
+        UserAction[] actions = {
+                new ExitAction(out)
+        };
+        new StartUI(out).init(in, tracker, actions);
+        expected.append("Menu:").append(ln).append("0. Exit Program").append(ln).append("Wrong input, you can select: 0 .. 0")
+                .append(ln).append("Menu:").append(ln).append("0. Exit Program").append(ln)
+                .append("The program is finished. Thank you!").append(ln);
+        assertEquals(expected.toString(), out.toString());
+    }
 }
