@@ -1,9 +1,16 @@
 package ru.job4j.tracker;
 
 public final class SingleTracker {
-    private static final Tracker tracker = new Tracker();
+    private static Tracker tracker;
 
     private SingleTracker() {
+    }
+
+    public static Tracker getInstance() {
+        if (tracker == null) {
+            tracker = new Tracker();
+        }
+        return tracker;
     }
 
     public Item add(Item item) {
@@ -29,9 +36,4 @@ public final class SingleTracker {
     public Item[] findByName(String key) {
         return tracker.findByName(key);
     }
-
-    public static Tracker getTracker() {
-        return tracker;
-    }
-
 }
