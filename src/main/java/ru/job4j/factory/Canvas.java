@@ -1,32 +1,29 @@
 package ru.job4j.factory;
 
-import java.util.Scanner;
-
 public class Canvas {
-    private final ShapeOperator shapeOperator;
+    private ShapeOperator shapeOperator;
+    private final Output out;
+    private final Input input;
 
-    public Canvas(ShapeOperator shapeOperator) {
-        this.shapeOperator = shapeOperator;
+    public Canvas(Output out, Input input) {
+        this.out = out;
+        this.input = input;
     }
 
     public void demonstrate() {
-        this.shapeOperator.showInfo();
+        this.shapeOperator.showInfo(out, input);
     }
 
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        ShapeOperator operator;
-        System.out.println("Какую фигуру вы хотите построить: ");
-        String shape = input.nextLine();
+    public void init() {
+        String shape = input.askStr("Какую фигуру вы хотите построить: ");
         if (shape.equals("прямоугольник")) {
-            operator = new RectangleOperator();
+            shapeOperator = new RectangleOperator();
         } else if (shape.equals("треугольник")) {
-            operator = new TriangleOperator();
+            shapeOperator = new TriangleOperator();
         } else {
-            operator = null;
-            System.out.println("Error");
+            shapeOperator = null;
+            out.println("Error");
         }
-        Canvas canvas = new Canvas(operator);
-        canvas.demonstrate();
+        demonstrate();
     }
 }

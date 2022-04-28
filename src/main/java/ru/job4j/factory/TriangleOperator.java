@@ -1,16 +1,10 @@
 package ru.job4j.factory;
 
-import java.util.Scanner;
-
 public class TriangleOperator extends ShapeOperator {
-    private final Scanner input = new Scanner(System.in);
-
     @Override
-    public Shape createShape() {
-        System.out.print("Введите длину основания треугольника: ");
-        int a = Integer.parseInt(input.nextLine());
-        System.out.print("Введите высоту треугольника: ");
-        int h = Integer.parseInt(input.nextLine());
+    public Shape createShape(Input input) {
+        int a = input.askInt("Введите длину основания треугольника: ");
+        int h = input.askInt("Введите высоту треугольника: ");
         return new Triangle(a, h);
     }
 }
