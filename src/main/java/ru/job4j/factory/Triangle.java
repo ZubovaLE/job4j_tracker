@@ -13,7 +13,8 @@ public class Triangle implements Shape {
     public String draw() {
         StringBuilder buffer = new StringBuilder();
         String ln = System.lineSeparator();
-        buffer.append("   *").append(ln).append("  * *").append(ln).append(" *   *").append(ln).append("*     *").append(ln).append("*******");
+        buffer.append("   *").append(ln).append("  * *").append(ln).append(" *   *").
+                append(ln).append("*     *").append(ln).append("*******").append(ln);
         return buffer.toString();
     }
 

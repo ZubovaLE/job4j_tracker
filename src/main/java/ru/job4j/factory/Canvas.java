@@ -3,27 +3,24 @@ package ru.job4j.factory;
 public class Canvas {
     private ShapeOperator shapeOperator;
     private final Output out;
-    private final Input input;
 
-    public Canvas(Output out, Input input) {
+    public Canvas(Output out) {
         this.out = out;
-        this.input = input;
     }
 
-    public void demonstrate() {
+    public void demonstrate(Input input) {
         this.shapeOperator.showInfo(out, input);
     }
 
-    public void init() {
+    public void init(Input input) {
         String shape = input.askStr("Какую фигуру вы хотите построить: ");
         if (shape.equals("прямоугольник")) {
             shapeOperator = new RectangleOperator();
         } else if (shape.equals("треугольник")) {
             shapeOperator = new TriangleOperator();
         } else {
-            shapeOperator = null;
-            out.println("Error");
+            shapeOperator = new SomeShapeOperator();
         }
-        demonstrate();
+        demonstrate(input);
     }
 }
