@@ -29,16 +29,6 @@ class PhoneDictionaryTest {
     }
 
     @Test
-    @DisplayName("Test find when key is Samara")
-    void findWhenKeyIsSamara() {
-        PhoneDictionary phones = new PhoneDictionary();
-        phones.add(new Person("Ivan", "Ivanov", "12345", "Russia, Moscow"));
-        phones.add(new Person("Petr", "Petrov", "54321", "Russia, Samara"));
-        ArrayList<Person> persons = phones.find("Samara");
-        assertEquals("Petr", persons.get(0).getName());
-    }
-
-    @Test
     @DisplayName("Test find when key is 12345")
     void findWhenKeyIs12345() {
         PhoneDictionary phones = new PhoneDictionary();
