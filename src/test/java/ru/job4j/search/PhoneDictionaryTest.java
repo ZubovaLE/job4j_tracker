@@ -2,6 +2,11 @@ package ru.job4j.search;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import java.util.ArrayList;
 
@@ -18,14 +23,21 @@ class PhoneDictionaryTest {
         assertEquals("Petrov", persons.get(0).getSurname());
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(value = {
+            "Ivan:Ivanov:12345:Russia, Moscow:Petr:Petrov:54321:Russia, Samara",
+            "Petr:Petrov:54321:Russia, Samara:Ivan:Ivanov:12345:Russia, Moscow"
+    }, delimiter = ':')
     @DisplayName("Test find when key is Russia")
-    void findWhenKeyIsRussia() {
+    void findWhenKeyIsRussia(String nameOne, String surnameOne, String phoneOne, String addressOne,
+                             String nameTwo, String surnameTwo, String phoneTwo, String addressTwo) {
         PhoneDictionary phones = new PhoneDictionary();
-        phones.add(new Person("Ivan", "Ivanov", "12345", "Russia, Moscow"));
-        phones.add(new Person("Petr", "Petrov", "54321", "Russia, Samara"));
+        Person one = new Person(nameOne, surnameOne, phoneOne, addressOne);
+        phones.add(one);
+        Person two = new Person(nameTwo, surnameTwo, phoneTwo, addressTwo);
+        phones.add(two);
         ArrayList<Person> persons = phones.find("Russia");
-        assertEquals("Petr", persons.get(1).getName());
+        assertThat(persons, hasItem(two));
     }
 
     @Test
