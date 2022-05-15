@@ -3,6 +3,9 @@ package ru.job4j.tracker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class StartUITest {
@@ -16,12 +19,12 @@ class StartUITest {
                 new String[]{"0", "Item name", "1"}
         );
         Tracker tracker = new Tracker();
-        UserAction[] actions = {
+        List<UserAction> actions = Arrays.asList(
                 new CreateAction(output),
                 new ExitAction(output)
-        };
+        );
         new StartUI(output).init(in, tracker, actions);
-        assertEquals(tracker.findAll()[0].getName(), "Item name");
+        assertEquals(tracker.findAll().get(0).getName(), "Item name");
     }
 
     @Test
@@ -34,10 +37,10 @@ class StartUITest {
         Input in = new StubInput(
                 new String[]{"0", String.valueOf(item.getId()), replacedName, "1"}
         );
-        UserAction[] actions = {
+        List<UserAction> actions = Arrays.asList(
                 new EditAction(output),
                 new ExitAction(output)
-        };
+        );
         new StartUI(output).init(in, tracker, actions);
         assertEquals(tracker.findById(item.getId()).getName(), replacedName);
     }
@@ -51,10 +54,10 @@ class StartUITest {
         Input in = new StubInput(
                 new String[]{"0", String.valueOf(item.getId()), "1"}
         );
-        UserAction[] actions = {
+        List<UserAction> actions = Arrays.asList(
                 new DeleteAction(output),
                 new ExitAction(output)
-        };
+        );
         new StartUI(output).init(in, tracker, actions);
         assertNull(tracker.findById(item.getId()));
     }
@@ -66,9 +69,9 @@ class StartUITest {
         Output out = new StubOutput();
         Input in = new StubInput(new String[]{"0"});
         Tracker tracker = new Tracker();
-        UserAction[] actions = {
+        List<UserAction> actions = List.of(
                 new ExitAction(out)
-        };
+        );
         new StartUI(out).init(in, tracker, actions);
         expected.append("Menu:").append(ln).append("0. Exit Program")
                 .append(ln).append("The program is finished. Thank you!").append(ln);
@@ -86,10 +89,10 @@ class StartUITest {
         Input in = new StubInput(
                 new String[]{"0", String.valueOf(one.getId()), replaceName, "1"}
         );
-        UserAction[] actions = {
+        List<UserAction> actions = Arrays.asList(
                 new EditAction(out),
                 new ExitAction(out)
-        };
+        );
         new StartUI(out).init(in, tracker, actions);
         expected.append("Menu:").append(ln).append("0. Edit Item").append(ln).append("1. Exit Program").append(ln)
                 .append("=== Edit item ===").append(ln).append("Заявка изменена успешно.").append(ln)
@@ -109,10 +112,10 @@ class StartUITest {
         Input in = new StubInput(
                 new String[]{"0", "1"}
         );
-        UserAction[] actions = {
+        List<UserAction> actions = Arrays.asList(
                 new ShowAction(out),
                 new ExitAction(out)
-        };
+        );
         new StartUI(out).init(in, tracker, actions);
         expected.append("Menu:").append(ln).append("0. Show all Items").append(ln)
                 .append("1. Exit Program").append(ln).append("=== Show all items ===")
@@ -131,10 +134,10 @@ class StartUITest {
         Input in = new StubInput(
                 new String[]{"0", "1"}
         );
-        UserAction[] actions = {
+        List<UserAction> actions = Arrays.asList(
                 new ShowAction(out),
                 new ExitAction(out)
-        };
+        );
         new StartUI(out).init(in, tracker, actions);
         expected.append("Menu:").append(ln).append("0. Show all Items").append(ln)
                 .append("1. Exit Program").append(ln).append("=== Show all items ===")
@@ -154,10 +157,10 @@ class StartUITest {
         Input in = new StubInput(
                 new String[]{"0", String.valueOf(one.getId()), "1"}
         );
-        UserAction[] actions = {
+        List<UserAction> actions = Arrays.asList(
                 new FindByIdAction(out),
                 new ExitAction(out)
-        };
+        );
         new StartUI(out).init(in, tracker, actions);
         expected.append("Menu:").append(ln).append("0. Find Item by id").append(ln)
                 .append("1. Exit Program").append(ln).append("=== Find item by id ===")
@@ -176,10 +179,10 @@ class StartUITest {
         Input in = new StubInput(
                 new String[]{"0", "5", "1"}
         );
-        UserAction[] actions = {
+        List<UserAction> actions = Arrays.asList(
                 new FindByIdAction(out),
                 new ExitAction(out)
-        };
+        );
         new StartUI(out).init(in, tracker, actions);
         expected.append("Menu:").append(ln).append("0. Find Item by id").append(ln)
                 .append("1. Exit Program").append(ln).append("=== Find item by id ===")
@@ -199,10 +202,10 @@ class StartUITest {
         Input in = new StubInput(
                 new String[]{"0", String.valueOf(one.getName()), "1"}
         );
-        UserAction[] actions = {
+        List<UserAction> actions = Arrays.asList(
                 new FindByNameAction(out),
                 new ExitAction(out)
-        };
+        );
         new StartUI(out).init(in, tracker, actions);
         expected.append("Menu:").append(ln).append("0. Find Item by name").append(ln)
                 .append("1. Exit Program").append(ln).append("=== Find item by name ===")
@@ -221,10 +224,10 @@ class StartUITest {
         Input in = new StubInput(
                 new String[]{"0", "any", "1"}
         );
-        UserAction[] actions = {
+        List<UserAction> actions = Arrays.asList(
                 new FindByNameAction(out),
                 new ExitAction(out)
-        };
+        );
         new StartUI(out).init(in, tracker, actions);
         expected.append("Menu:").append(ln).append("0. Find Item by name").append(ln)
                 .append("1. Exit Program").append(ln).append("=== Find item by name ===")
@@ -243,9 +246,9 @@ class StartUITest {
                 new String[]{"7", "0"}
         );
         Tracker tracker = new Tracker();
-        UserAction[] actions = {
+        List<UserAction> actions = List.of(
                 new ExitAction(out)
-        };
+        );
         new StartUI(out).init(in, tracker, actions);
         expected.append("Menu:").append(ln).append("0. Exit Program").append(ln).append("Wrong input, you can select: 0 .. 0")
                 .append(ln).append("Menu:").append(ln).append("0. Exit Program").append(ln)
