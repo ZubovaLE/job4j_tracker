@@ -4,11 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PassportOffice {
-    private Map<String, Citizen> citizens = new HashMap<>();
+    private final Map<String, Citizen> citizens = new HashMap<>();
 
+    /**
+     * Метод add вернет true, если пользователя еще нет в HashMap, и false, если он уже есть.
+     *
+     * @param citizen - пользователь
+     * @return true/false - пользователь не найден/найден в HashMap
+     */
     public boolean add(Citizen citizen) {
         boolean rsl = false;
-        if(citizens.containsValue(citizen)) {
+        if (!citizens.containsKey(citizen.getPassport())) {
+            citizens.put(citizen.getPassport(), citizen);
             rsl = true;
         }
         return rsl;

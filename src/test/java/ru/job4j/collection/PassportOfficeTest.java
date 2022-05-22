@@ -8,10 +8,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class PassportOfficeTest {
 
     @Test
-    @DisplayName("test add when no user")
-    public void add() {
-        Citizen citizen = new Citizen("2f44a", "Petr Arsentev");
-        PassportOffice office = new PassportOffice();;
-        assertFalse(office.add(citizen));
+    @DisplayName("Test add method when user is not found, then result = true")
+    public void testAddWhenUserIsNotFoundThenTrue() {
+        Citizen citizen = new Citizen("2f44a", "Petr Petrov");
+        PassportOffice office = new PassportOffice();
+        assertTrue(office.add(citizen));
+    }
+
+    @Test
+    @DisplayName("Test add method when user is found, then result = false")
+    public void testAddWhenUserIsFoundThenFalse() {
+        Citizen first = new Citizen("2f44a", "Petr Petrov");
+        Citizen second = new Citizen("2f44a", "Ivan Ivanov");
+        PassportOffice office = new PassportOffice();
+        office.add(first);
+        assertFalse(office.add(second));
     }
 }
