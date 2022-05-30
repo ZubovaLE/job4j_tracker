@@ -1,8 +1,8 @@
 package ru.job4j.collection;
 
 public class Job implements Comparable<Job> {
-    private String name;
-    private int priority;
+    private final String name;
+    private final int priority;
 
     public Job(String name, int priority) {
         this.name = name;
