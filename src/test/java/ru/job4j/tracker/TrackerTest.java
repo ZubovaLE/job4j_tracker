@@ -1,19 +1,18 @@
 package ru.job4j.tracker;
 
-import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.hamcrest.core.IsNull.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
-public class TrackerTest {
+class TrackerTest {
 
     @Test
     @DisplayName("Test the findById method when add new item")
-    public void whenAddNewItemThenTrackerHasSameItem() {
+    void whenAddNewItemThenTrackerHasSameItem() {
         Tracker tracker = new Tracker();
         Item item = new Item();
         item.setName("test1");
@@ -24,7 +23,7 @@ public class TrackerTest {
 
     @Test
     @DisplayName("Test the findById method")
-    public void whenTestFindById() {
+    void whenTestFindById() {
         Tracker tracker = new Tracker();
         Item bug = new Item("Bug");
         Item item = tracker.add(bug);
@@ -34,7 +33,7 @@ public class TrackerTest {
 
     @Test
     @DisplayName("Test the findAll method when check the first item")
-    public void whenTestFindAllCheckFirstItem() {
+    void whenTestFindAllCheckFirstItem() {
         Tracker tracker = new Tracker();
         Item first = new Item("First");
         Item second = new Item("Second");
@@ -46,7 +45,7 @@ public class TrackerTest {
 
     @Test
     @DisplayName("Test the findAll method when check the second item")
-    public void whenTestFindAllCheckSecondItem() {
+    void whenTestFindAllCheckSecondItem() {
         Tracker tracker = new Tracker();
         Item first = new Item("First");
         Item second = new Item("Second");
@@ -58,7 +57,7 @@ public class TrackerTest {
 
     @Test
     @DisplayName("Test the findByName method when check the first item name")
-    public void whenTestFindByNameCheckArrayLength() {
+    void whenTestFindByNameCheckArrayLength() {
         Tracker tracker = new Tracker();
         Item first = new Item("First");
         Item second = new Item("Second");
@@ -73,7 +72,7 @@ public class TrackerTest {
 
     @Test
     @DisplayName("Test the findByName method when check the second item name")
-    public void whenTestFindByNameCheckSecondItemName() {
+    void whenTestFindByNameCheckSecondItemName() {
         Tracker tracker = new Tracker();
         Item first = new Item("First");
         Item second = new Item("Second");
@@ -88,7 +87,7 @@ public class TrackerTest {
 
     @Test
     @DisplayName("Test the findByName method for the second item name")
-    public void whenTestFindByNameCheckForSecondItemName() {
+    void whenTestFindByNameCheckForSecondItemName() {
         Tracker tracker = new Tracker();
         Item first = new Item("First");
         Item second = new Item("Second");
@@ -103,7 +102,7 @@ public class TrackerTest {
 
     @Test
     @DisplayName("Test the replace method")
-    public void whenReplace() {
+    void whenReplace() {
         Tracker tracker = new Tracker();
         Item bug = new Item("Bug");
         tracker.add(bug);
@@ -116,7 +115,7 @@ public class TrackerTest {
 
     @Test
     @DisplayName("Test the delete method")
-    public void whenDelete() {
+    void whenDelete() {
         Tracker tracker = new Tracker();
         Item bug = new Item();
         bug.setName("Bug");
