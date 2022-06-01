@@ -1,6 +1,5 @@
 package ru.job4j.ex;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +32,7 @@ class FindTest {
     void testGetWhenIndexEqualsArraySizeThenException() {
         String[] in = {"one", "two", "three", "four", "five"};
         int index = 5;
-        Assert.assertThrows(IllegalArgumentException.class, () -> Find.get(in, index));
+        assertThrows(IllegalArgumentException.class, () -> Find.get(in, index));
     }
 
     @Test
@@ -41,7 +40,7 @@ class FindTest {
     void testGetWhenIndexIsGreaterThanArraySizeThenException() {
         String[] in = {"one", "two", "three", "four", "five"};
         int index = 7;
-        Assert.assertThrows(IllegalArgumentException.class, () -> Find.get(in, index));
+        assertThrows(IllegalArgumentException.class, () -> Find.get(in, index));
     }
 
     @Test
@@ -49,6 +48,6 @@ class FindTest {
     void testGetWhenIndexIsNegativeThenException() {
         String[] in = {"one", "two", "three", "four", "five"};
         int index = -3;
-        Assert.assertThrows(IllegalArgumentException.class, () -> Find.get(in, index));
+        assertThrows(IllegalArgumentException.class, () -> Find.get(in, index));
     }
 }

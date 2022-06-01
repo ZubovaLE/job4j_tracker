@@ -1,6 +1,5 @@
 package ru.job4j.ex;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +15,7 @@ class UserStoreTest {
                 new User("Mark", true)
         };
         String login = "John";
-        Assert.assertThrows(UserNotFoundException.class, () -> UserStore.findUser(input, login));
+        assertThrows(UserNotFoundException.class, () -> UserStore.findUser(input, login));
     }
 
     @Test
@@ -35,21 +34,21 @@ class UserStoreTest {
     @DisplayName("Test validate method when user's valid is false then exception")
     void testValidateWhenValidIsFalseThenException() {
         User in = new User("Petr", false);
-        Assert.assertThrows(UserInvalidException.class, () -> UserStore.validate(in));
+        assertThrows(UserInvalidException.class, () -> UserStore.validate(in));
     }
 
     @Test
     @DisplayName("Test validate method when user's name length is less than 3 then exception")
     void testValidateWhenNameLengthIsLessThen3ThenException() {
         User in = new User("A", true);
-        Assert.assertThrows(UserInvalidException.class, () -> UserStore.validate(in));
+        assertThrows(UserInvalidException.class, () -> UserStore.validate(in));
     }
 
     @Test
     @DisplayName("Test validate method when both requirements are violated then exception")
     void testValidateWhenBothRequirementsAreViolatedThenException() {
         User in = new User("A", false);
-        Assert.assertThrows(UserInvalidException.class, () -> UserStore.validate(in));
+        assertThrows(UserInvalidException.class, () -> UserStore.validate(in));
     }
 
     @Test
