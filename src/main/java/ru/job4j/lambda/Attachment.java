@@ -1,0 +1,29 @@
+package ru.job4j.lambda;
+
+import java.util.Comparator;
+
+public class Attachment {
+    private final String name;
+    private final int size;
+
+    public Attachment(String name, int size) {
+        this.name = name;
+        this.size = size;
+    }
+
+    @Override
+    public String toString() {
+        return "Attachment{" +
+                "name='" + name + '\'' +
+                ", size=" + size +
+                '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getSize() {
+        return size;
+    }
+}
