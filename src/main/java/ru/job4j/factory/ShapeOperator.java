@@ -4,7 +4,7 @@ public abstract class ShapeOperator {
 
     public void showInfo(Output out, Input input) {
         Shape shape = createShape(input);
-        if(shape != null) {
+        if (shape != null) {
             out.println(shape.draw());
             out.println("Площадь фигуры равна: " + shape.square());
         } else {
