@@ -12,21 +12,11 @@ public class AttachmentSort {
                 new Attachment("image 3", 13)
         );
 
-        Comparator<Attachment> comparator = new Comparator<>() {
-            @Override
-            public int compare(Attachment left, Attachment right) {
-                return Integer.compare(left.getSize(), right.getSize());
-            }
-        };
+        Comparator<Attachment> comparator = (left, right) -> Integer.compare(left.getSize(), right.getSize());
         attachments.sort(comparator);
         System.out.println(attachments);
 
-        Comparator<Attachment> namesComparator = new Comparator<>() {
-            @Override
-            public int compare(Attachment left, Attachment right) {
-                return left.getName().compareTo(right.getName());
-            }
-        };
+        Comparator<Attachment> namesComparator = (left, right) -> left.getName().compareTo(right.getName());
         attachments.sort(namesComparator);
         System.out.println(attachments);
     }
