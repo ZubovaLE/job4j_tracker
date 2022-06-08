@@ -40,8 +40,13 @@ public class BankService {
      */
     public void addAccount(String passport, Account account) {
         User user = findByPassport(passport);
-        if (user != null && !users.get(user).contains(account)) {
+        if (user == null) {
+            throw new NullPointerException("User is not found");
+        }
+        if (!users.get(user).contains(account)) {
             users.get(user).add(account);
+        } else {
+            throw new IllegalArgumentException("Account doesn't exist");
         }
     }
 
