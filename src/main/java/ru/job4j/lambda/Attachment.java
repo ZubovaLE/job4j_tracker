@@ -1,7 +1,5 @@
 package ru.job4j.lambda;
 
-import java.util.Comparator;
-
 public class Attachment {
     private final String name;
     private final int size;
