@@ -63,11 +63,19 @@ class PhoneDictionaryTest {
     }
 
     @Test
-    @DisplayName("Test find when not found then empty ArrayList")
+    @DisplayName("Test find when nobody is found then empty ArrayList")
     void findWhenNotFoundThenEmptyArrayList() {
         PhoneDictionary phones = new PhoneDictionary();
         phones.add(new Person("Ivan", "Ivanov", "12345", "Russia, Moscow"));
         ArrayList<Person> result = phones.find("Samara");
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    @DisplayName("Test find when key is null then exception")
+    void findWhenNull() throws NullPointerException {
+        PhoneDictionary phones = new PhoneDictionary();
+        phones.add(new Person("Ivan", "Ivanov", "12345", "Russia, Moscow"));
+        assertThrows(NullPointerException.class, () -> phones.find(""));
     }
 }
