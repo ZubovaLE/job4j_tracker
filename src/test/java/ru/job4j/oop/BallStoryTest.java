@@ -23,6 +23,6 @@ class BallStoryTest {
         expected.append("Ball escaped").append(ln).append("Ball escaped").append(ln).append("Ball was eaten");
         String result = outputStreamCaptor.toString().trim();
         System.setOut(standardOut);
-        assertThat(result, is(expected));
+        assertThat(result, is(expected.toString()));
     }
 }

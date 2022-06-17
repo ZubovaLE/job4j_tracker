@@ -49,6 +49,6 @@ class StudentTest {
         Student.main(null);
         String result = outStreamCaptor.toString().trim();
         System.setOut(standardOut);
-        assertThat(result, is(expected));
+        assertThat(result, is(expected.toString()));
     }
 }
