@@ -1,14 +1,10 @@
 package ru.job4j.search;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PriorityQueueTest {
 
@@ -20,15 +16,15 @@ class PriorityQueueTest {
             "middle, 5, urgent, 4, low, 7"
     })
     void whenHigherPriority(String descOne, int priorityOne, String descTwo,
-                                   int priorityTwo, String descThree, int priorityThree) {
-        PriorityQueue queue = new PriorityQueue();
-        Task one = new Task(descOne, priorityOne);
+                            int priorityTwo, String descThree, int priorityThree) {
+        var queue = new PriorityQueue();
+        var one = new Task(descOne, priorityOne);
         queue.put(one);
-        Task two = new Task(descTwo, priorityTwo);
+        var two = new Task(descTwo, priorityTwo);
         queue.put(two);
-        Task three = new Task(descThree, priorityThree);
+        var three = new Task(descThree, priorityThree);
         queue.put(three);
-        Task result = queue.take();
+        var result = queue.take();
         assertThat(result, samePropertyValuesAs(two));
     }
 }

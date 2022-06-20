@@ -17,9 +17,9 @@ class PhoneDictionaryTest {
     @Test
     @DisplayName("Test find when key is Petr")
     public void findWhenKeyIsPetr() {
-        PhoneDictionary phones = new PhoneDictionary();
+        var phones = new PhoneDictionary();
         phones.add(new Person("Petr", "Petrov", "534872", "Moscow"));
-        ArrayList<Person> persons = phones.find("Petr");
+        var persons = phones.find("Petr");
         assertEquals("Petrov", persons.get(0).getSurname());
     }
 
@@ -31,34 +31,34 @@ class PhoneDictionaryTest {
     @DisplayName("Test find when key is Russia")
     void findWhenKeyIsRussia(String nameOne, String surnameOne, String phoneOne, String addressOne,
                              String nameTwo, String surnameTwo, String phoneTwo, String addressTwo) {
-        PhoneDictionary phones = new PhoneDictionary();
-        Person one = new Person(nameOne, surnameOne, phoneOne, addressOne);
+        var phones = new PhoneDictionary();
+        var one = new Person(nameOne, surnameOne, phoneOne, addressOne);
         phones.add(one);
-        Person two = new Person(nameTwo, surnameTwo, phoneTwo, addressTwo);
+        var two = new Person(nameTwo, surnameTwo, phoneTwo, addressTwo);
         phones.add(two);
-        ArrayList<Person> persons = phones.find("Russia");
+        var persons = phones.find("Russia");
         assertThat(persons, hasItem(two));
     }
 
     @Test
     @DisplayName("Test find when key is 12345")
     void findWhenKeyIs12345() {
-        PhoneDictionary phones = new PhoneDictionary();
-        Person ivan = new Person("Ivan", "Ivanov", "12345", "Russia, Moscow");
-        Person petr = new Person("Petr", "Petrov", "54321", "Russia, Samara");
+        var phones = new PhoneDictionary();
+        var ivan = new Person("Ivan", "Ivanov", "12345", "Russia, Moscow");
+        var petr = new Person("Petr", "Petrov", "54321", "Russia, Samara");
         phones.add(ivan);
         phones.add(petr);
-        ArrayList<Person> persons = phones.find("12345");
+        var persons = phones.find("12345");
         assertEquals(ivan, persons.get(0));
     }
 
     @Test
     @DisplayName("Test find when key is Ru")
     void findWhenKeyIsRu() {
-        PhoneDictionary phones = new PhoneDictionary();
+        var phones = new PhoneDictionary();
         phones.add(new Person("Ivan", "Ivanov", "12345", "Russia, Moscow"));
         phones.add(new Person("Petr", "Petrov", "54321", "Russia, Samara"));
-        ArrayList<Person> persons = phones.find("Ru");
+        var persons = phones.find("Ru");
         assertEquals(2, persons.size());
     }
 
