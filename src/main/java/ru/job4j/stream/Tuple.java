@@ -3,10 +3,10 @@ package ru.job4j.stream;
 import java.util.Objects;
 
 public class Tuple {
-    private String name;
-    private int score;
+    private final String name;
+    private final double score;
 
-    public Tuple(String name, int score) {
+    public Tuple(String name, double score) {
         this.name = name;
         this.score = score;
     }
