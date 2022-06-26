@@ -92,8 +92,17 @@ class AnalyzeTest {
     }
 
     @Test
-    void bestStudent() {
+    @DisplayName("Test bestStudent")
+    public void whenBestPupil() {
+        Tuple best = Analyze.bestStudent(
+                Stream.of(
+                        new Pupil("Ivanov", List.of(new Subject("Math", 100), new Subject("Lang", 100))),
+                        new Pupil("Petrov", List.of(new Subject("Math", 60), new Subject("Lang", 60)))
+                )
+        );
+        assertThat(best, is(new Tuple("Ivanov", 200D)));
     }
+
 
     @Test
     void bestSubject() {
