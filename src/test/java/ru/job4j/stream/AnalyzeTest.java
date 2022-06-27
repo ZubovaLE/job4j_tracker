@@ -13,7 +13,7 @@ class AnalyzeTest {
 
     @Test
     @DisplayName("Test averageScore when single pupil with Math = 100 then result = 100")
-    public void whenSinglePupil() {
+    public void testAverageWhenSinglePupilWithOneSubject() {
         double average = Analyze.averageScore(
                 Stream.of(
                         new Pupil("Ivanov", List.of(new Subject("Math", 100)))
@@ -24,8 +24,8 @@ class AnalyzeTest {
 
 
     @Test
-    @DisplayName("Test averageScore when math is 100 and Physics is 95 then result = 97.5D")
-    public void whenSinglePupilWith2Subjects() {
+    @DisplayName("Test averageScore when single pupil with math = 100 and Physics = 95 then result = 97.5D")
+    public void testAverageWhenSinglePupilWith2Subjects() {
         double average = Analyze.averageScore(
                 Stream.of(
                         new Pupil("Ivanov", List.of(
@@ -37,7 +37,7 @@ class AnalyzeTest {
     }
 
     @Test
-    @DisplayName("Test averageScore when two pupil")
+    @DisplayName("Test averageScore when two pupils with one subject")
     public void whenPupilAverage() {
         double average = Analyze.averageScore(
                 Stream.of(
@@ -49,7 +49,7 @@ class AnalyzeTest {
     }
 
     @Test
-    @DisplayName("Test averageScoreBySubject when two pupil")
+    @DisplayName("Test averageScoreBySubject when two pupils")
     public void whenListOfPupilAverage() {
         List<Tuple> average = Analyze.averageScoreBySubject(
                 Stream.of(
@@ -61,6 +61,13 @@ class AnalyzeTest {
                 new Tuple("Ivanov", 80D),
                 new Tuple("Petrov", 60D)
         )));
+    }
+
+    @Test
+    @DisplayName("Test averageScoreBySubject when no pupils then result collection is empty")
+    public void testAverageWhenNoPupils() {
+        List<Tuple> average = Analyze.averageScoreBySubject(Stream.of());
+        assertThat(average, is(List.of()));
     }
 
     @Test
@@ -93,7 +100,7 @@ class AnalyzeTest {
 
     @Test
     @DisplayName("Test bestStudent")
-    public void whenBestPupil() {
+    public void testBestPupil() {
         Tuple best = Analyze.bestStudent(
                 Stream.of(
                         new Pupil("Ivanov", List.of(new Subject("Math", 100), new Subject("Lang", 100))),
@@ -103,8 +110,29 @@ class AnalyzeTest {
         assertThat(best, is(new Tuple("Ivanov", 200D)));
     }
 
+    @Test
+    @DisplayName("Test bestStudent when no pupils")
+    public void testBestPupilWhenNoPupils() {
+        Tuple best = Analyze.bestStudent(Stream.empty());
+        assertThat(best, is(new Tuple("No one pupil is found", 0D)));
+    }
+
 
     @Test
-    void bestSubject() {
+    public void testBestSubject() {
+        Tuple best = Analyze.bestSubject(
+                Stream.of(
+                        new Pupil("Ivanov", List.of(new Subject("Math", 100), new Subject("Lang", 40))),
+                        new Pupil("Petrov", List.of(new Subject("Math", 60), new Subject("Lang", 60)))
+                )
+        );
+        assertThat(best, is(new Tuple("Math", 160D)));
     }
+
+    @Test
+    public void testBestSubjectWhenEmptyStream() {
+        Tuple best = Analyze.bestSubject(Stream.of());
+        assertThat(best, is(new Tuple("No one subject is found", 0D)));
+    }
+
 }
