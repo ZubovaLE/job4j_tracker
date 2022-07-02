@@ -69,4 +69,21 @@ class SchoolTest {
         expected.add(new Student(40, "Surname4"));
         assertThat(rsl, is(expected));
     }
+
+//    @Test
+//    @DisplayName("Test when 70 <= score <= 100")
+//    void whenCollectGrades() {
+//        List<Student> students = List.of(
+//                new Student(90, "Surname1", Grade.First),
+//                new Student(85, "Surname4", Grade.First),
+//                new Student(90, "Surname5", Grade.Second),
+//                new Student(90, "Surname7", Grade.Fifth),
+//                new Student(90, "Surname9", Grade.Third)
+//        );
+//        School sc = new School();
+//        Predicate<Student> pr = p -> p.getScore() <= 100 && p.getScore() > 80;
+//        List<List<Student>> rsl = sc.collectTo3Lists(students, pr);
+//        List<List<Student>> expected = List.of(List.of(new Student(70, "Surname7", Grade.First)));
+//        assertThat(rsl, is(expected));
+//    }
 }
