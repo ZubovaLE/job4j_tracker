@@ -13,12 +13,12 @@ public class School {
                 .collect(Collectors.toList());
     }
 
-    public List<List<Student>> collectTo3Lists(List<Student> students, Predicate<Student> predict) {
+    public List<List<Student>> collectToLists(List<Student> students, Predicate<Student> predict) {
         List<List<Student>> listOfGrades = new ArrayList<>();
         for (Grade x : Grade.values()) {
             listOfGrades.add(students.stream()
                     .filter(s -> s.getGrade() == x)
-                    .sorted(Comparator.comparing(l -> l.getScore() <= 100 && l.getScore() > 80))
+                    .filter(predict)
                     .collect(Collectors.toList()));
         }
         return listOfGrades;
