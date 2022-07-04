@@ -28,14 +28,14 @@ public class School {
      * @return list of lists of students
      */
     public List<List<Student>> collectToListsByGrade(List<Student> students, Predicate<Student> predict) {
-        List<List<Student>> listOfstudentsByGrades = new ArrayList<>();
+        List<List<Student>> listOfStudentsByGrades = new ArrayList<>();
         for (Grade x : Grade.values()) {
-            listOfstudentsByGrades.add(students.stream()
+            listOfStudentsByGrades.add(students.stream()
                     .filter(s -> s.getGrade() == x)
                     .filter(predict)
                     .collect(Collectors.toList()));
         }
-        return listOfstudentsByGrades;
+        return listOfStudentsByGrades;
     }
 
     /**
@@ -52,6 +52,28 @@ public class School {
                     .filter(predict)
                     .sorted(Comparator.comparingInt(Student::getScore).reversed())
                     .collect(Collectors.toList()));
+        }
+        return listOfStudentsByProgress;
+    }
+
+    /**
+     * The method convert list of students to lists of students from different grades with certain scores
+     *
+     * @param students     - list of students
+     * @param requirements - list of predicates
+     * @return list of lists of students
+     */
+    public List<List<Student>> collectToListsByGradeAndProgress(List<Student> students, List<Predicate<Student>> requirements) {
+        List<List<Student>> listOfStudentsByProgress = new ArrayList<>();
+        for (Grade x : Grade.values()) {
+            for (Predicate<Student> predict : requirements) {
+                listOfStudentsByProgress.add(
+                        students.stream()
+                                .filter(s -> s.getGrade() == x)
+                                .filter(predict)
+                                .sorted(Comparator.comparingInt(Student::getScore).reversed())
+                                .collect(Collectors.toList()));
+            }
         }
         return listOfStudentsByProgress;
     }
