@@ -71,55 +71,84 @@ class SchoolTest {
     }
 
     @Test
-    @DisplayName("Test when 70 <= score <= 100")
-    void whenCollectGrades() {
+    @DisplayName("Test the collectToListsByGrade method when five grades")
+    void testCollectToListsByGradeWhen5Grades() {
+        Student firstInFirst = new Student(90, "firstInFirst", Grade.First);
+        Student secondInFirst = new Student(85, "secondInFirst", Grade.First);
+        Student thirdInFirst = new Student(50, "thirdInFirst", Grade.First);
+        Student firstInSecond = new Student(90, "firstInSecond", Grade.Second);
+        Student secondInSecond = new Student(20, "secondInSecond", Grade.Second);
+        Student thirdInSecond = new Student(75, "thirdInSecond", Grade.Second);
+        Student firstInThird = new Student(35, "firstInThird", Grade.Third);
+        Student secondInThird = new Student(87, "secondInThird", Grade.Third);
+        Student thirdInThird = new Student(98, "thirdInThird", Grade.Third);
+        Student firstInFourth = new Student(13, "firstInFourth", Grade.Fourth);
+        Student secondInFourth = new Student(97, "secondInFourth", Grade.Fourth);
+        Student firstInFifth = new Student(12, "firstInFifth", Grade.Fifth);
+        Student secondInFifth = new Student(71, "secondInFifth", Grade.Fifth);
         List<Student> students = List.of(
-                new Student(90, "Surname1", Grade.First),
-                new Student(85, "Surname4", Grade.First),
-                new Student(90, "Surname5", Grade.Second),
-                new Student(90, "Surname7", Grade.Fifth),
-                new Student(90, "Surname9", Grade.Third),
-                new Student(90, "Surname10", Grade.Fourth)
+                firstInFirst, firstInFifth, firstInFourth, firstInSecond, firstInThird, thirdInSecond, thirdInThird,
+                secondInFifth, secondInFourth, secondInSecond, secondInThird, secondInFirst, thirdInFirst
         );
         School sc = new School();
-        Predicate<Student> pr = p -> p.getScore() <= 100 && p.getScore() > 80;
-        List<List<Student>> rsl = sc.collectToLists(students, pr);
-        List<List<Student>> expected = List.of(List.of(
-                        new Student(90, "Surname1", Grade.First), new Student(85, "Surname4", Grade.First)),
-                List.of(new Student(90, "Surname5", Grade.Second)),
-                List.of(new Student(90, "Surname9", Grade.Third)),
-                List.of(new Student(90, "Surname10", Grade.Fourth)),
-                List.of(new Student(90, "Surname7", Grade.Fifth))
+        Predicate<Student> pr = p -> p.getScore() <= 100 && p.getScore() > 70;
+        List<List<Student>> rsl = sc.collectToListsByGrade(students, pr);
+        List<List<Student>> expected = List.of(
+                List.of(firstInFirst, secondInFirst),
+                List.of(firstInSecond, thirdInSecond),
+                List.of(thirdInThird, secondInThird),
+                List.of(secondInFourth),
+                List.of(secondInFifth)
         );
         assertThat(rsl, is(expected));
     }
 
-//    @Test
-//    @DisplayName("Test when 70 <= score <= 100")
-//    void whenCollectGradesd() {
-//        Student firstInFirst = new Student(90, "Surname1", Grade.First);
-//        Student secondInFirst = new Student(85, "Surname4", Grade.First);
-//        Student firstInSecond = new Student(90, "Surname5", Grade.Second);
-//        Student secondInSecond = new Student(90, "Surname5", Grade.Second);
-//        Student firstInThird = new Student(90, "Surname9", Grade.Third);
-//        Student secondInThird = new Student(90, "Surname9", Grade.Third);
-//        Student firstInFourth = new Student(90, "Surname10", Grade.Fourth);
-//        Student secondInFourth = new Student(90, "Surname10", Grade.Fourth);
-//        Student firstInFifth = new Student(90, "Surname10", Grade.Fourth);
-//        Student secondInFifth = new Student(90, "Surname10", Grade.Fourth);
-//        List<Student> students = List.of(firstInFirst, firstInFifth, firstInFourth, firstInSecond, firstInSecond,
-//                secondInFifth, secondInFourth, secondInSecond, secondInThird, secondInFirst
-//        );
-//        School sc = new School();
-//        Predicate<Student> pr = p -> p.getScore() <= 100 && p.getScore() > 80;
-//        List<List<Student>> rsl = sc.collectToLists(students, pr);
-//        List<List<Student>> expected = List.of(List.of(
-//                        new Student(90, "Surname1", Grade.First), new Student(85, "Surname4", Grade.First)),
-//                List.of(new Student(90, "Surname5", Grade.Second)),
-//                List.of(new Student(90, "Surname9", Grade.Third)),
-//                List.of(new Student(90, "Surname10", Grade.Fourth)),
-//                List.of(new Student(90, "Surname7", Grade.Fifth))
-//        );
-//        assertThat(rsl, is(expected));
-//    }
+    @Test
+    @DisplayName("Test the collectToListsByGrade method when no appropriate students then empty collection")
+    void testCollectToListsByGradeWhenNoAppropriateStudentsThenEmptyList() {
+        School sc = new School();
+        Student first = new Student(56, "firstInFirst", Grade.First);
+        Student second = new Student(54, "secondInFirst", Grade.First);
+        Student third = new Student(50, "thirdInFirst", Grade.First);
+        List<Student> students = List.of(first, second, third);
+        Predicate<Student> pr = p -> p.getScore() <= 100 && p.getScore() > 70;
+        List<List<Student>> rsl = sc.collectToListsByGrade(students, pr);
+        List<List<Student>> expected = List.of(
+                List.of(),
+                List.of(),
+                List.of(),
+                List.of(),
+                List.of()
+        );
+        assertThat(rsl, is(expected));
+    }
+
+    @Test
+    @DisplayName("Test the collectToListsByProgress method")
+    void testCollectToListsByProgress() {
+        School sc = new School();
+
+        Student first = new Student(10, "Surname1");
+        Student second = new Student(40, "Surname2");
+        Student third = new Student(49, "Surname3");
+        Student fourth = new Student(50, "Surname4");
+        Student fifth = new Student(65, "Surname5");
+        Student sixth = new Student(69, "Surname6");
+        Student seventh = new Student(70, "Surname7");
+        Student eighth = new Student(90, "Surname8");
+        Student ninth = new Student(98, "Surname9");
+
+        List<Student> input = List.of(first, second, third, fourth, fifth, sixth, seventh, eighth, ninth);
+        Predicate<Student> firstRequire = p -> p.getScore() <= 100 && p.getScore() >= 70;
+        Predicate<Student> secondRequire = p -> p.getScore() < 70 && p.getScore() >= 50;
+        Predicate<Student> thirdRequire = p -> p.getScore() < 50 && p.getScore() > 0;
+        List<Predicate<Student>> requirements = List.of(firstRequire, secondRequire, thirdRequire);
+        List<List<Student>> rsl = sc.collectToListsByProgress(input, requirements);
+        List<List<Student>> expected = List.of(
+                List.of(ninth, eighth, seventh),
+                List.of(sixth, fifth, fourth),
+                List.of(third, second, first)
+        );
+        assertThat(rsl, is(expected));
+    }
 }
