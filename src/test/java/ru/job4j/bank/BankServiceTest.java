@@ -21,6 +21,25 @@ class BankServiceTest {
     }
 
     @Test
+    @DisplayName("Try to add new account when the user is not found then get exception")
+    public void tryAddAccountWhenUserIsNotFoundThenNullPointerException() {
+        User user = new User("3434", "Petr Petrov");
+        BankService bank = new BankService();
+        bank.addUser(user);
+        assertThrows(NullPointerException.class, () -> bank.addAccount("32", new Account("23", 34D)));
+    }
+
+    @Test
+    @DisplayName("Try to add new account when the account already exists then get exception")
+    public void tryAddAccountWhenAccountExistsThenGetIllegalArgumentException() {
+        User user = new User("3434", "Petr Petrov");
+        BankService bank = new BankService();
+        bank.addUser(user);
+        bank.addAccount("3434", new Account("23", 34D));
+        assertThrows(IllegalArgumentException.class, () -> bank.addAccount("3434", new Account("23", 34D)));
+    }
+
+    @Test
     @DisplayName("Test addUser when user already exists")
     public void addUserWhenUserAlreadyExists() {
         User user = new User("3434", "Petr Petrov");

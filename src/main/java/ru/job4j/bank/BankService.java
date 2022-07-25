@@ -46,7 +46,7 @@ public class BankService {
         if (!users.get(user.get()).contains(account)) {
             users.get(user.get()).add(account);
         } else {
-            throw new IllegalArgumentException("Account doesn't exist");
+            throw new IllegalArgumentException("Account already exists");
         }
     }
 
