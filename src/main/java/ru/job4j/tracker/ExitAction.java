@@ -13,7 +13,7 @@ public class ExitAction implements UserAction {
     }
 
     @Override
-    public boolean execute(Input input, MemTracker memTracker) {
+    public boolean execute(Input input, SqlTracker tracker) {
         out.println("The program is finished. Thank you!");
         return false;
     }
