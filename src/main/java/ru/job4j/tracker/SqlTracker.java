@@ -1,8 +1,6 @@
 package ru.job4j.tracker;
 
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +9,14 @@ import java.util.Properties;
 public class SqlTracker implements Store, AutoCloseable {
     private Connection connection;
 
-    public void init() throws Exception {
+    public SqlTracker() {
+    }
+
+    public SqlTracker(Connection connection) {
+        this.connection = connection;
+    }
+
+    public void init() {
         try (InputStream in = SqlTracker.class.getClassLoader().getResourceAsStream("app.properties")) {
             Properties config = new Properties();
             config.load(in);
@@ -23,11 +28,6 @@ public class SqlTracker implements Store, AutoCloseable {
             );
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        try (Statement statement = connection.createStatement()) {
-            StringBuilder sb = new StringBuilder();
-            Files.lines(Path.of("./db/update_001.sql")).forEach(sb::append);
-            statement.execute(sb.toString());
         }
     }
 
