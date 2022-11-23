@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Properties;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -49,10 +51,29 @@ class SqlTrackerTest {
     }
 
     @Test
-    public void whenSaveItemAndFindByGeneratedIdThenMustBeTheSame() {
+    public void whenSaveItemAndFindByNameThenMustBeTheSame() {
         SqlTracker tracker = new SqlTracker(connection);
         Item item = new Item("item");
         tracker.add(item);
-        assertThat(tracker.findById(item.getId()), is(item));
+        List<Item> items = tracker.findByName("item");
+        long time = items.get(0).getCreated().toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli();
+        long time2 = item.getCreated().toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli();
+        assertThat(items.get(0).getName(), is(item.getName()));
+        assertThat(time, is(time2));
+    }
+
+    @Test
+    public void whenSaveItemAndFindByGeneratedIdThenMustBeTheSame() {
+        SqlTracker tracker = new SqlTracker(connection);
+        Item item = new Item("item 1");
+        tracker.add(item);
+        List<Item> items = tracker.findByName("item 1");
+        long time = items.get(0).getCreated().toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli();
+        long time2 = item.getCreated().toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli();
+        assertThat(items.get(0).getName(), is(item.getName()));
+        assertThat(time, is(time2));
+        tracker.delete(items.get(0).getId());
+        List<Item> items2 = tracker.findByName("item 1");
+        assertThat(items2.size(), is(0));
     }
 }
