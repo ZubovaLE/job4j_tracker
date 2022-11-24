@@ -1,19 +1,16 @@
 package ru.job4j.tracker;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.*;
 
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Properties;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -31,7 +28,6 @@ class SqlTrackerTest {
                     config.getProperty("url"),
                     config.getProperty("username"),
                     config.getProperty("password")
-
             );
         } catch (Exception e) {
             throw new IllegalStateException(e);
@@ -51,29 +47,82 @@ class SqlTrackerTest {
     }
 
     @Test
-    public void whenSaveItemAndFindByNameThenMustBeTheSame() {
+    @DisplayName("FindById when add item then must get the same item")
+    public void whenSaveItemAndFindByGeneratedIdThenMustBeTheSame() {
         SqlTracker tracker = new SqlTracker(connection);
         Item item = new Item("item");
         tracker.add(item);
-        List<Item> items = tracker.findByName("item");
-        long time = items.get(0).getCreated().toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli();
-        long time2 = item.getCreated().toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli();
-        assertThat(items.get(0).getName(), is(item.getName()));
-        assertThat(time, is(time2));
+        assertThat(tracker.findById(item.getId()), is(item));
     }
 
     @Test
-    public void whenSaveItemAndFindByGeneratedIdThenMustBeTheSame() {
+    @DisplayName("FindByName when add items")
+    public void whenSaveItemsAndFindByName() {
+        SqlTracker tracker = new SqlTracker(connection);
+        Item itemOne = new Item("item one");
+        Item itemTwo = new Item("two");
+        Item itemThree = new Item("item three");
+        tracker.add(itemOne);
+        tracker.add(itemTwo);
+        tracker.add(itemThree);
+        List<Item> items = tracker.findByName("item");
+        assertThat(items.size(), is(2));
+        assertTrue(items.contains(itemOne));
+        assertFalse(items.contains(itemTwo));
+        assertTrue(items.contains(itemThree));
+    }
+
+    @Test
+    @DisplayName("FindAll when add items then get all items")
+    public void whenSaveItemsAndFindAll() {
+        SqlTracker tracker = new SqlTracker(connection);
+        Item itemOne = new Item("item one");
+        Item itemTwo = new Item("item two");
+        Item itemThree = new Item("item three");
+        tracker.add(itemOne);
+        tracker.add(itemTwo);
+        tracker.add(itemThree);
+        List<Item> items = tracker.findAll();
+        assertThat(items.size(), is(3));
+        assertTrue(items.contains(itemOne));
+        assertTrue(items.contains(itemTwo));
+        assertTrue(items.contains(itemThree));
+    }
+
+    @Test
+    @DisplayName("FindById when add and delete item then must be null")
+    public void whenSaveAndDeleteItemAndFindByGeneratedIdThenMustBeNull() {
         SqlTracker tracker = new SqlTracker(connection);
         Item item = new Item("item 1");
         tracker.add(item);
-        List<Item> items = tracker.findByName("item 1");
-        long time = items.get(0).getCreated().toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli();
-        long time2 = item.getCreated().toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli();
-        assertThat(items.get(0).getName(), is(item.getName()));
-        assertThat(time, is(time2));
-        tracker.delete(items.get(0).getId());
-        List<Item> items2 = tracker.findByName("item 1");
-        assertThat(items2.size(), is(0));
+        assertThat(tracker.findById(item.getId()), is(item));
+        assertTrue(tracker.delete(item.getId()));
+        assertNull(tracker.findById(item.getId()));
+    }
+
+    @Test
+    @DisplayName("Delete when wrong id then false")
+    public void deleteWhenWrongIdThenFalse() {
+        SqlTracker tracker = new SqlTracker(connection);
+        assertFalse(tracker.delete(1));
+    }
+
+    @Test
+    @DisplayName("FindById when add and replace item then must be new item")
+    public void whenSaveAndReplaceItemAndFindByGeneratedIdThenMustBeNull() {
+        SqlTracker tracker = new SqlTracker(connection);
+        Item item = new Item("item");
+        Item newItem = new Item("new");
+        tracker.add(item);
+        assertThat(tracker.findById(item.getId()), is(item));
+        assertTrue(tracker.replace(item.getId(), newItem));
+        assertThat(tracker.findById(item.getId()), is(newItem));
+    }
+
+    @Test
+    @DisplayName("Replace when wrong id then false")
+    public void replaceWhenWrongIdThenFalse() {
+        SqlTracker tracker = new SqlTracker(connection);
+        assertFalse(tracker.replace(1, new Item("item")));
     }
 }
