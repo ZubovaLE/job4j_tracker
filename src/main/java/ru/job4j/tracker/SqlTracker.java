@@ -40,12 +40,11 @@ public class SqlTracker implements Store, AutoCloseable {
 
     @Override
     public Item add(Item item) {
-        int affectedLines = 0;
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO items(name, created) VALUES(?,?)",
                 Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, item.getName());
             statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
-            affectedLines = statement.executeUpdate();
+            statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     item.setId(generatedKeys.getInt(1));
@@ -54,7 +53,7 @@ public class SqlTracker implements Store, AutoCloseable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return affectedLines > 0 ? item : null;
+        return item;
     }
 
     @Override
@@ -89,12 +88,7 @@ public class SqlTracker implements Store, AutoCloseable {
         List<Item> items = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM items")) {
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    items.add(new Item(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getTimestamp("created").toLocalDateTime()));
-                }
+                fillItems(resultSet, items);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,19 +96,22 @@ public class SqlTracker implements Store, AutoCloseable {
         return items;
     }
 
+    private void fillItems(ResultSet resultSet, List<Item> items) throws SQLException {
+        while (resultSet.next()) {
+            items.add(new Item(
+                    resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getTimestamp("created").toLocalDateTime()));
+        }
+    }
+
     @Override
     public List<Item> findByName(String key) {
         List<Item> items = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM items WHERE name ILIKE ?")) {
-            statement.setString(1, "%" + key + "%");
+            statement.setString(1, key);
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    items.add(new Item(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getTimestamp("created").toLocalDateTime()
-                    ));
-                }
+                fillItems(resultSet, items);
             }
         } catch (SQLException e) {
             e.printStackTrace();
