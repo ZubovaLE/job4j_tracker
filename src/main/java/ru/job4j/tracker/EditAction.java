@@ -13,7 +13,7 @@ public class EditAction implements UserAction {
     }
 
     @Override
-    public boolean execute(Input input, SqlTracker tracker) {
+    public boolean execute(Input input, Store tracker) {
         out.println("=== Edit item ===");
         int id = input.askInt("Enter id: ");
         String name = input.askStr("Enter name: ");
@@ -21,7 +21,7 @@ public class EditAction implements UserAction {
         if (tracker.replace(id, item)) {
             out.println("Заявка изменена успешно.");
         } else {
-            out.println("Ошибка замены заявки.");
+            out.println("Ошибка замены заявки. Заявка с id = " + id + " не найдена");
         }
         return true;
     }
