@@ -21,7 +21,7 @@ public class Item implements Comparable<Item> {
     public Item(int id, String name) {
         this.id = id;
         this.name = name;
-        created = LocalDateTime.now();
+        created = LocalDateTime.now().withNano(0);
     }
 
     public Item(int id, String name, LocalDateTime created) {
