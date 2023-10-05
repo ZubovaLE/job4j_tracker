@@ -17,18 +17,20 @@ class FindByNameActionTest {
     @Test
     @DisplayName("Test execute when successful")
     void executeSuccessfully() {
+        //Given
         Output out = new StubOutput();
         Store tracker = new MemTracker();
         String itemName = "Item";
         Item item = new Item(itemName);
         tracker.add(item);
         FindByNameAction find = new FindByNameAction(out);
-
         Input input = mock(Input.class);
-
         when(input.askStr(any())).thenReturn(itemName);
+
+        //When
         find.execute(input, tracker);
 
+        //Then
         String ln = System.lineSeparator();
         String expected = "=== Find item by name ===" + ln + "id: " + item.getId() + ", name: " + itemName +
                 ", created: " + FORMATTER.format(item.getCreated()) + ln;
@@ -39,6 +41,7 @@ class FindByNameActionTest {
     @Test
     @DisplayName("Test execute when item is not found")
     void executeWhenItemIsNotFound() {
+        //Given
         Output out = new StubOutput();
         Store tracker = new MemTracker();
         tracker.add(new Item("Item"));
@@ -46,11 +49,13 @@ class FindByNameActionTest {
         String anotherItemName = "name";
         when(input.askStr(any())).thenReturn(anotherItemName);
         FindByNameAction find = new FindByNameAction(out);
+
+        //When
         find.execute(input, tracker);
 
+        //Then
         String ln = System.lineSeparator();
         String expected = "=== Find item by name ===" + ln + "Заявки с именем: " + anotherItemName + " не найдены." + ln;
-
         assertThat(out.toString(), is(expected));
     }
 }
