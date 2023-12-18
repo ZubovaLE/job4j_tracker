@@ -1,9 +1,14 @@
 package ru.job4j.config;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "cars")
 public class Car {
@@ -18,30 +23,6 @@ public class Car {
         car.model = model;
         car.created = created;
         return car;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public Timestamp getCreated() {
-        return created;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public void setCreated(Timestamp created) {
-        this.created = created;
     }
 
     @Override
