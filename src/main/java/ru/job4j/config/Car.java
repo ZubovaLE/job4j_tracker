@@ -17,11 +17,13 @@ public class Car {
     private int id;
     private String model;
     private Timestamp created;
+    private String owner;
 
-    public static Car of(String model, Timestamp created) {
+    public static Car of(String model, Timestamp created, String owner) {
         Car car = new Car();
         car.model = model;
         car.created = created;
+        car.owner = owner;
         return car;
     }
 
