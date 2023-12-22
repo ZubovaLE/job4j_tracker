@@ -12,6 +12,7 @@ public class Item implements Comparable<Item> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    private String description;
     private LocalDateTime created;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
 
@@ -20,6 +21,12 @@ public class Item implements Comparable<Item> {
 
     public Item(String name) {
         this.name = name;
+        created = LocalDateTime.now().withNano(0);
+    }
+
+    public Item(String name, String description) {
+        this.name = name;
+        this.description = description;
         created = LocalDateTime.now().withNano(0);
     }
 
@@ -32,6 +39,13 @@ public class Item implements Comparable<Item> {
     public Item(int id, String name, LocalDateTime created) {
         this.id = id;
         this.name = name;
+        this.created = created;
+    }
+
+    public Item(int id, String name, LocalDateTime created, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
         this.created = created;
     }
 
