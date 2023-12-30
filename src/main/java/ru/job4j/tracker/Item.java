@@ -1,10 +1,15 @@
 package ru.job4j.tracker;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "items")
 public class Item implements Comparable<Item> {
@@ -47,26 +52,6 @@ public class Item implements Comparable<Item> {
         this.name = name;
         this.description = description;
         this.created = created;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
